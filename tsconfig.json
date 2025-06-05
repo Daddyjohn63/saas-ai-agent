@@ -30,7 +30,8 @@
     "__mocks__/fileMock.ts",
     "src/__tests__/Hello.text.tsx",
     "jest.setup.ts",
-    "jest.config.ts"
+    "jest.config.ts",
+    "src/app/page.test.jsx"
   ],
   "exclude": ["node_modules"]
 }
