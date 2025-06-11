@@ -31,7 +31,8 @@
     "src/__tests__/Hello.text.tsx",
     "jest.setup.ts",
     "jest.config.ts",
-    "src/app/page.test.jsx"
+    "src/app/page.test.jsx",
+    "src/modules/auth/ui/views/sign-in-view.test.jsx"
   ],
   "exclude": ["node_modules"]
 }

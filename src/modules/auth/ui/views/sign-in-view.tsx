@@ -155,6 +155,7 @@ export const SignInView = () => {
                     variant="outline"
                     type="button"
                     className="w-full"
+                    aria-label="Sign in with Google"
                   >
                     <FaGoogle />
                   </Button>
@@ -164,6 +165,7 @@ export const SignInView = () => {
                     variant="outline"
                     type="button"
                     className="w-full"
+                    aria-label="Sign in with GitHub"
                   >
                     <FaGithub />
                   </Button>
