@@ -8,4 +8,6 @@ note: use leggacy-peer-deps
 
 $ npm i -D @testing-library/jest-dom @testing-library/react @testing-library/user-event jest jest-environment-jsdom ts-jest --legacy-peer-deps
 
-18:40
+https://github.com/TanStack/query/issues/8677
+
+11:49
