@@ -106,6 +106,7 @@ export const SignInView = () => {
                           <Input
                             type="email"
                             placeholder="m@example.com"
+                            autoComplete="username"
                             {...field}
                           />
                         </FormControl>
@@ -125,6 +126,7 @@ export const SignInView = () => {
                           <Input
                             type="password"
                             placeholder="********"
+                            autoComplete="current-password"
                             {...field}
                           />
                         </FormControl>
