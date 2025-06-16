@@ -126,6 +126,7 @@
   }
 }
 
+/* anything clickable to have a pointer */
 @layer base {
   button:not(:disabled),
   [role='button']:not(:disabled) {
