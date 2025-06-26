@@ -36,7 +36,7 @@ export const agentsRouter = createTRPCRouter({
   create: protectedProcedure
     .input(agentsInsertSchema)
     .mutation(async ({ input, ctx }) => {
-      //we destrucutre using array, as drizzle always return an array. here we are safe toreturn the first record from the array, as there will only be one.
+      //we destrucutre using array, as drizzle always return an array. here we are safe to return the first record from the array, as there will only be one.
       const [createdAgent] = await db
         .insert(agents)
         .values({

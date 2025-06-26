@@ -6,7 +6,7 @@ export const createTRPCContext = cache(async () => {
   /**
    * @see: https://trpc.io/docs/server/context
    */
-  return { userId: 'user_123' };
+  return { userId: 'user_123' }; //leave this, so we never egt undefined.
 });
 // Avoid exporting the entire t-object
 // since it's not very descriptive.
@@ -28,6 +28,7 @@ export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
   const session = await auth.api.getSession({
     headers: await headers()
   });
+  //console.log('session data', session);
   if (!session) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' });
   }
