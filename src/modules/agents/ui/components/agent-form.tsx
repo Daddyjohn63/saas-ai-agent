@@ -23,7 +23,7 @@ import { toast } from 'sonner';
 interface AgentFormProps {
   onSuccess?: () => void;
   onCancel?: () => void;
-  initialValues?: AgentGetOne;
+  initialValues?: AgentGetOne; // defined from '../../types'
 }
 
 export const AgentForm = ({
