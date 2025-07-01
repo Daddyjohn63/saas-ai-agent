@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AgentsListHeader } from '../components/agents-list-header';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Mock tRPC client to isolate the test from provider requirements
 jest.mock('@/trpc/client', () => ({
@@ -31,7 +32,13 @@ jest.mock('nuqs', () => ({
 
 describe('AgentsListHeader dialog', () => {
   it('dialog is not present until button is clicked, then form appears', async () => {
-    render(<AgentsListHeader />);
+    const queryClient = new QueryClient();
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <AgentsListHeader />
+      </QueryClientProvider>
+    );
 
     // 1. Dialog should not be present initially
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -44,7 +51,9 @@ describe('AgentsListHeader dialog', () => {
     expect(dialog).toBeInTheDocument();
 
     // 4. Check for dialog heading and form fields
-    expect(screen.getByText('New Agent')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: /New Agent/i })
+    ).toBeInTheDocument();
     expect(screen.getByText('Create a new agent')).toBeInTheDocument();
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Instructions')).toBeInTheDocument();
