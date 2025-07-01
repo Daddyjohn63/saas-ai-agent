@@ -1,3 +1,4 @@
+//TEST THE DIALOG APPEARS ON CLICK
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AgentsListHeader } from '../components/agents-list-header';

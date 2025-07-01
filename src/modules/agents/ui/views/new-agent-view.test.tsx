@@ -1,3 +1,4 @@
+//TEST THAT THE HEADER ELEMENTS ARE PRESENT
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { AgentsListHeader } from '../components/agents-list-header';
