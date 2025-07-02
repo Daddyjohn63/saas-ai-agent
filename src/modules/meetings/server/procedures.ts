@@ -20,9 +20,24 @@ import {
   MIN_PAGE_SIZE
 } from '@/constants';
 import { TRPCError } from '@trpc/server';
+import { meetingsInsertSchema } from '../schema';
 //import { TRPCError } from '@trpc/server';
 
 export const meetingsRouter = createTRPCRouter({
+  create: protectedProcedure
+    .input(meetingsInsertSchema)
+    .mutation(async ({ input, ctx }) => {
+      //we destrucutre using array, as drizzle always return an array. here we are safe to return the first record from the array, as there will only be one.
+      const [createdMeeting] = await db
+        .insert(meetings)
+        .values({
+          ...input,
+          userId: ctx.auth.user.id
+        })
+        .returning();
+      //TODO: Create Stream Call, Upsert Stream Users
+      return createdMeeting;
+    }),
   getOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
