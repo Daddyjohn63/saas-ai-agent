@@ -47,6 +47,7 @@ export const AgentIdView = ({ agentId }: Props) => {
     })
   );
 
+  //Handles deletion confirmation
   const [RemoveConfirmation, confirmRemove] = useConfirm(
     'Are you sure?',
     `The following action will remove ${data.meetingCount} associated meetings`
