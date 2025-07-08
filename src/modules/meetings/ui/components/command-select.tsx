@@ -34,6 +34,8 @@ export const CommandSelect = ({
   className
 }: Props) => {
   const [open, setOpen] = useState(false);
+  // Find the option object from the options array where the option's value matches the selected value prop.
+  // This is used to display the currently selected option in the button.
   const selectedOption = options.find(option => option.value === value);
 
   const handleOpenChange = (open: boolean) => {
@@ -57,7 +59,7 @@ export const CommandSelect = ({
         <ChevronsUpDownIcon />
       </Button>
       <CommandResponsiveDialog
-        // shouldFilter={!onSearch}
+        shouldFilter={!onSearch}
         open={open}
         onOpenChange={handleOpenChange}
       >
