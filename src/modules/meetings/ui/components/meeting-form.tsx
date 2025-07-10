@@ -44,7 +44,8 @@ export const MeetingForm = ({
 
   const [openNewAgentDialog, setOpenNewAgentDialog] = useState(false);
   const [agentSearch, setAgentSearch] = useState('');
-
+  //maintains agentSearch state. Fetches agents with this query dependent upon agentSearch.
+  //initial state will be to render all agents. But as soon as user types into the search box, query fires again looking for the agent.
   const agents = useQuery(
     trpc.agents.getMany.queryOptions({
       pageSize: 100,
@@ -141,6 +142,7 @@ export const MeetingForm = ({
               <FormItem>
                 <FormLabel>Agent</FormLabel>
                 <FormControl>
+                  {/* use command component to setup a search */}
                   <CommandSelect
                     options={(agents.data?.items ?? []).map(agent => ({
                       id: agent.id,
