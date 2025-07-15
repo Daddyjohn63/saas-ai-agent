@@ -25,7 +25,7 @@ import { MeetingGetOne } from '../../types';
 import { NewAgentDialog } from '@/modules/agents/ui/components/new-agent-dialog';
 import { useRouter } from 'next/navigation';
 import { meetingsInsertSchema } from '../../schema';
-import { CommandSelect } from './command-select';
+import { CommandSelect } from '../../../../components/command-select';
 
 interface MeetingFormProps {
   onSuccess?: (id?: string) => void;
