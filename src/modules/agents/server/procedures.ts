@@ -82,6 +82,7 @@ export const agentsRouter = createTRPCRouter({
 
   getMany: protectedProcedure
     .input(
+      //search filters as input
       z.object({
         page: z.number().default(DEFAULT_PAGE),
         pageSize: z

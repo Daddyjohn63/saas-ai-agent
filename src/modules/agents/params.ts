@@ -10,3 +10,5 @@ export const filtersSearchParams = {
 };
 
 export const loadSearchParams = createLoader(filtersSearchParams);
+
+//needed for server processing/ component
