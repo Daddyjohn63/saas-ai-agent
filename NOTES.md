@@ -10,4 +10,4 @@ $ npm i -D @testing-library/jest-dom @testing-library/react @testing-library/use
 
 https://github.com/TanStack/query/issues/8677
 
-meeting page 04:37
+30:00
