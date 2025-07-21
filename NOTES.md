@@ -14,7 +14,7 @@ https://github.com/TanStack/query/issues/8677
 
 ---
 
-## Video Call Implementation with Stream Video SDK
+## Video Call Implementation with Stream Video SDK...
 
 ### Chat Conversation: Understanding the Implementation
 
