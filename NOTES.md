@@ -10,6 +10,9 @@ $ npm i -D @testing-library/jest-dom @testing-library/react @testing-library/use
 
 https://github.com/TanStack/query/issues/8677
 
+##NGROK DOMAIN
+https://wired-goose-above.ngrok-free.app/sign-in
+
 ##Inngest server
 
 npx inngest-cli@latest dev

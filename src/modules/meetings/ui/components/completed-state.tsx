@@ -71,7 +71,7 @@ export const CompletedState = ({ data }: Props) => {
         <TabsContent value="recording">
           <div className="bg-white rounded-lg border px-4 py-5">
             <video
-              src={data.recordingUrl!}
+              src={data.recordingUrl!} //use exclamation point to tel ts that it will not be undefined.
               className="w-full rounded-lg"
               controls
             />
