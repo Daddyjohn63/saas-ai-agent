@@ -10,6 +10,10 @@ $ npm i -D @testing-library/jest-dom @testing-library/react @testing-library/use
 
 https://github.com/TanStack/query/issues/8677
 
+##Inngest server
+
+http://localhost:8288/
+
 08:23
 
 ---
