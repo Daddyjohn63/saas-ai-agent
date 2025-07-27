@@ -12,6 +12,8 @@ https://github.com/TanStack/query/issues/8677
 
 ##Inngest server
 
+npx inngest-cli@latest dev
+
 http://localhost:8288/
 
 11:06
