@@ -9,10 +9,20 @@
 // The procedures defined here are typically imported into a router.ts file _app.ts, where they are combined into a tRPC router for the module.
 import { z } from 'zod';
 import { db } from '@/db';
-import { agents, meetings } from '@/db/schema';
+import { agents, meetings, user } from '@/db/schema';
 import { createTRPCRouter, protectedProcedure } from '@/trpc/init';
+import JSONL from 'jsonl-parse-stringify';
 
-import { and, eq, getTableColumns, ilike, desc, count, sql } from 'drizzle-orm';
+import {
+  and,
+  eq,
+  getTableColumns,
+  ilike,
+  desc,
+  count,
+  sql,
+  inArray
+} from 'drizzle-orm';
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -21,12 +31,104 @@ import {
 } from '@/constants';
 import { TRPCError } from '@trpc/server';
 import { meetingsInsertSchema, meetingsUpdateSchema } from '../schema';
-import { MeetingStatus } from '../types';
+import { MeetingStatus, StreamTranscriptItem } from '../types';
 import { streamVideo } from '@/lib/stream-video';
 import { generateAvatarUri } from '@/lib/avatar';
-//import { TRPCError } from '@trpc/server';
 
 export const meetingsRouter = createTRPCRouter({
+  getTranscript: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const [existingMeeting] = await db
+        .select()
+        .from(meetings)
+        .where(
+          and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))
+        );
+
+      if (!existingMeeting) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Meeting not found'
+        });
+      }
+
+      if (!existingMeeting.transcriptUrl) {
+        return [];
+      }
+
+      const transcript = await fetch(existingMeeting.transcriptUrl)
+        .then(res => res.text())
+        .then(text => JSONL.parse<StreamTranscriptItem>(text))
+        .catch(() => {
+          return [];
+        });
+
+      const speakerIds = [...new Set(transcript.map(item => item.speaker_id))];
+      // a new Set is created to ensure that the list of speaker IDs is unique.
+      // Explanation:
+      // transcript.map(item => item.speaker_id) creates an array of all speaker_id values from the transcript. This array may contain duplicates if the same speaker appears multiple times.
+      // new Set(...) takes this array and removes any duplicate values, because a Set in JavaScript only stores unique values.
+      // [...new Set(...)] converts the Set back into an array, so you end up with an array of unique speaker IDs.
+      const userSpeakers = await db
+        .select()
+        .from(user)
+        .where(inArray(user.id, speakerIds))
+        .then(users =>
+          users.map(user => ({
+            ...user,
+            image:
+              user.image ??
+              generateAvatarUri({ seed: user.name, variant: 'initials' })
+          }))
+        );
+
+      const agentSpeakers = await db
+        .select()
+        .from(agents)
+        .where(inArray(agents.id, speakerIds))
+        .then(agents =>
+          agents.map(agent => ({
+            ...agent,
+            image: generateAvatarUri({
+              seed: agent.name,
+              variant: 'botttsNeutral'
+            })
+          }))
+        );
+      //combine into one array
+      const speakers = [...userSpeakers, ...agentSpeakers];
+
+      const transcriptWithSpeakers = transcript.map(item => {
+        const speaker = speakers.find(
+          speaker => speaker.id === item.speaker_id
+        );
+
+        if (!speaker) {
+          return {
+            ...item,
+            user: {
+              name: 'Unknown',
+              image: generateAvatarUri({
+                seed: 'Unknown',
+                variant: 'initials'
+              })
+            }
+          };
+        }
+
+        return {
+          ...item,
+          user: {
+            name: speaker.name,
+            image: speaker.image
+          }
+        };
+      });
+
+      return transcriptWithSpeakers;
+    }),
+
   generateToken: protectedProcedure.mutation(async ({ ctx }) => {
     await streamVideo.upsertUsers([
       {
