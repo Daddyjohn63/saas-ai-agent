@@ -59,9 +59,9 @@ export const MeetingForm = ({
         await queryClient.invalidateQueries(
           trpc.meetings.getMany.queryOptions({})
         );
-        // await queryClient.invalidateQueries(
-        //   trpc.premium.getFreeUsage.queryOptions(),
-        // );
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions()
+        );
 
         onSuccess?.(data.id);
       },

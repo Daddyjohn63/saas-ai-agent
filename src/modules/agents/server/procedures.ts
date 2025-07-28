@@ -10,7 +10,11 @@
 import { z } from 'zod';
 import { db } from '@/db';
 import { agents } from '@/db/schema';
-import { createTRPCRouter, protectedProcedure } from '@/trpc/init';
+import {
+  createTRPCRouter,
+  premiumProcedure,
+  protectedProcedure
+} from '@/trpc/init';
 import { agentsInsertSchema, agentsUpdateSchema } from '../schema';
 import { and, eq, getTableColumns, ilike, sql, desc, count } from 'drizzle-orm';
 import {
@@ -129,7 +133,7 @@ export const agentsRouter = createTRPCRouter({
         totalPages
       };
     }),
-  create: protectedProcedure
+  create: premiumProcedure('agents')
     .input(agentsInsertSchema)
     .mutation(async ({ input, ctx }) => {
       //we destrucutre using array, as drizzle always return an array. here we are safe to return the first record from the array, as there will only be one.

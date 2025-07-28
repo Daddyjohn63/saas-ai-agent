@@ -10,7 +10,11 @@
 import { z } from 'zod';
 import { db } from '@/db';
 import { agents, meetings, user } from '@/db/schema';
-import { createTRPCRouter, protectedProcedure } from '@/trpc/init';
+import {
+  createTRPCRouter,
+  premiumProcedure,
+  protectedProcedure
+} from '@/trpc/init';
 import JSONL from 'jsonl-parse-stringify';
 
 import {
@@ -201,7 +205,7 @@ export const meetingsRouter = createTRPCRouter({
       return updatedMeeting;
     }),
 
-  create: protectedProcedure
+  create: premiumProcedure('meetings')
     .input(meetingsInsertSchema)
     .mutation(async ({ input, ctx }) => {
       //we destrucutre using array, as drizzle always return an array. here we are safe to return the first record from the array, as there will only be one.

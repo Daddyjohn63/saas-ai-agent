@@ -41,7 +41,9 @@ export const AgentForm = ({
         await queryClient.invalidateQueries(
           trpc.agents.getMany.queryOptions({})
         );
-        //TODO: Invalidate free tier usage
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions()
+        );
         onSuccess?.();
       },
       onError: error => {
