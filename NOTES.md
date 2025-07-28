@@ -19,7 +19,7 @@ npx inngest-cli@latest dev
 
 http://localhost:8288/
 
-04:09
+12:06
 
 ---
 
