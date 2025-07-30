@@ -9,14 +9,14 @@
 // The procedures defined here are typically imported into a router.ts file _app.ts, where they are combined into a tRPC router for the module.
 import { z } from 'zod';
 import { db } from '@/db';
-import { agents } from '@/db/schema';
+import { agents, meetings } from '@/db/schema';
 import {
   createTRPCRouter,
   premiumProcedure,
   protectedProcedure
 } from '@/trpc/init';
 import { agentsInsertSchema, agentsUpdateSchema } from '../schema';
-import { and, eq, getTableColumns, ilike, sql, desc, count } from 'drizzle-orm';
+import { and, eq, getTableColumns, ilike, desc, count } from 'drizzle-orm';
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -69,9 +69,8 @@ export const agentsRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       const [existingAgent] = await db
         .select({
-          //TODO: Change to actual count
-          meetingCount: sql<number>`5`,
-          ...getTableColumns(agents)
+          ...getTableColumns(agents),
+          meetingCount: db.$count(meetings, eq(agents.id, meetings.agentId))
         })
         .from(agents)
         .where(
@@ -101,9 +100,8 @@ export const agentsRouter = createTRPCRouter({
       const { search, page, pageSize } = input;
       const data = await db
         .select({
-          //TODO: Change to actual count
-          meetingCount: sql<number>`5`,
-          ...getTableColumns(agents)
+          ...getTableColumns(agents),
+          meetingCount: db.$count(meetings, eq(agents.id, meetings.agentId))
         })
         .from(agents)
         .where(
