@@ -56,7 +56,7 @@ export const AgentIdView = ({ agentId }: Props) => {
   );
 
   const handleRemoveAgent = async () => {
-    const ok = await confirmRemove();
+    const ok = await confirmRemove(); // await the promise to get the result.
 
     if (!ok) return;
 

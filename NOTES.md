@@ -23,6 +23,17 @@ http://localhost:8288/
 
 ---
 
+#Deploying
+##deploy to vercel
+
+## in get stream add your new url to webhook url (for dev, will need to add back in the NGROK Domain)
+
+## in vercel/settings/env variables, change better auth and next public app to new domain.
+
+## add domain into gitgub and google auth provider set-up (again will break dev)
+
+---
+
 ## Video Call Implementation with Stream Video SDK...
 
 ### Chat Conversation: Understanding the Implementation

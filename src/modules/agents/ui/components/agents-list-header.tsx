@@ -35,6 +35,7 @@ export const AgentsListHeader = () => {
         </div>
         <ScrollArea>
           <div className="flex items-center gap-x-2 p-1">
+            {/* this is the search filter component, we can see it just above the data table view. */}
             <AgentsSearchFilter />
             {isAnyFilterModified && (
               <Button variant="outline" size="sm" onClick={onClearFilters}>
