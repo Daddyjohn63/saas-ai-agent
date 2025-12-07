@@ -81,6 +81,8 @@ export const useConfirm = (
    * Uses ResponsiveDialog for a mobile-friendly layout
    * Dialog is only shown when promise is not null (i.e., when confirm() is called)
    */
+
+  //function component to render the dialog. we can return this as a component in the page which we call the hook in.
   const ConfirmationDialog = () => (
     <ResponsiveDialog
       open={promise !== null}
